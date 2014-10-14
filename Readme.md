@@ -8,7 +8,7 @@ http://en.wikipedia.org/wiki/Chess
 
 
 # Getting Started With The App
-The initial state of the project provides very little; not much more than a basic structure for displaying a chess board via a CLI.  After you fork the directory, you can run the program via Maven:
+The initial state of the project provides very little; not much more than a basic structure for displaying a chess board via a CLI.  You can run the program via Maven:
 
 ```Shell
 $ mvn compile exec:java

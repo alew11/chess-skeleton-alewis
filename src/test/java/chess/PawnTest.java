@@ -2,7 +2,9 @@ package chess;
 
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
@@ -29,23 +31,37 @@ public class PawnTest {
     /*
      * Can move forward once from any square as long as piece is not blocked
      * Can take on diagonal
+     * Cannot go off of board
      * Include these squares in list
      */
 	@Test
     public void testPawnMoveFromOpen() {
 		
-		Set<Position> actualPossible = new HashSet<Position>();
-		actualPossible.add(new Position("c5"));
-		actualPossible.add(new Position("d6"));
-
+    	Map<Position, Set<Position>> actualPossible =  new HashMap<Position, Set<Position>>();
+    	Set<Position> positionsTo = new HashSet<Position>();
     	
-    	state.placePiece(new Pawn(Player.White), new Position("c5"));
-    	state.placePiece(new Pawn(Player.White), new Position("a5"));
-    	state.placePiece(new Pawn(Player.Black), new Position("a6"));
+    	// Should be bound to board
+    	state.placePiece(new Pawn(Player.White), new Position("e8"));
+    	
+    	// All valid open board moves
+    	state.placePiece(new Pawn(Player.White), new Position("e5"));
+    	// For take right
     	state.placePiece(new Pawn(Player.Black), new Position("d6"));
-
+    	// For take left
+    	state.placePiece(new Pawn(Player.Black), new Position("f6"));
     	
-    	Set<Position> calcedPossible = state.listPossibleMoves();
+    	// Blocked piece
+    	state.placePiece(new Pawn(Player.White), new Position("b4"));
+    	state.placePiece(new Pawn(Player.Black), new Position("b5"));
+
+
+    	positionsTo.add(new Position("d6"));
+    	positionsTo.add(new Position("e6"));
+		positionsTo.add(new Position("f6"));
+		
+		actualPossible.put(new Position("e8"), positionsTo);
+    	
+    	Map<Position, Set<Position>> calcedPossible = state.listPossibleMoves();   
     	
     	assertEquals(actualPossible, calcedPossible);
     }
@@ -57,19 +73,33 @@ public class PawnTest {
 	@Test
     public void testPawnMoveFromOrigin() {
 		
-		Set<Position> actualPossible = new HashSet<Position>();
-		actualPossible.add(new Position("c3"));
-		actualPossible.add(new Position("c4"));
-		actualPossible.add(new Position("d3"));
-		actualPossible.add(new Position("h3"));
+		Map<Position, Set<Position>> actualPossible =  new HashMap<Position, Set<Position>>();
+    	Set<Position> positionsToE2 = new HashSet<Position>();
+    	Set<Position> positionsToB2 = new HashSet<Position>();
     	
-    	state.placePiece(new Pawn(Player.White), new Position("c2"));
+    	// All valid unmoved board moves
+    	state.placePiece(new Pawn(Player.White), new Position("e2"));
+    	// For take right
     	state.placePiece(new Pawn(Player.Black), new Position("d3"));
-    	state.placePiece(new Pawn(Player.White), new Position("h2"));
-    	state.placePiece(new Pawn(Player.Black), new Position("h4"));
-
+    	// For take left
+    	state.placePiece(new Pawn(Player.Black), new Position("f3"));
     	
-    	Set<Position> calcedPossible = state.listPossibleMoves();
+    	// Blocked piece at second position
+    	state.placePiece(new Pawn(Player.White), new Position("b2"));
+    	state.placePiece(new Pawn(Player.Black), new Position("b4"));
+
+
+    	positionsToE2.add(new Position("e3"));
+    	positionsToE2.add(new Position("e4"));
+		positionsToE2.add(new Position("d3"));
+		positionsToE2.add(new Position("f3"));
+		
+		positionsToB2.add(new Position("b3"));
+		
+		actualPossible.put(new Position("E2"), positionsToE2);
+		actualPossible.put(new Position("B2"), positionsToB2);
+    	
+    	Map<Position, Set<Position>> calcedPossible = state.listPossibleMoves();   
     	
     	assertEquals(actualPossible, calcedPossible);
     }

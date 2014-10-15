@@ -5,6 +5,7 @@ import chess.pieces.*;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Class that represents the current state of the game.  Basically, what pieces are in which positions on the
@@ -98,7 +99,15 @@ public class GameState {
      * @param piece The piece to place
      * @param position The position
      */
-    private void placePiece(Piece piece, Position position) {
+    public void placePiece(Piece piece, Position position) {
         positionToPieceMap.put(position, piece);
+    }
+    
+    /**
+     * Method to list possible moves of current player
+     * @return
+     */
+    public Set<Position> listPossibleMoves() {
+    	return null;
     }
 }

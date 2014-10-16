@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import chess.GameState;
 import chess.Player;
 import chess.Position;
 
@@ -25,8 +26,9 @@ public class Pawn extends Piece {
     }
 
 	@Override
-	public Set<Position> getPossibleMoves(Map<Position, Piece> positionToPieceMap, Position originalPos) {
+	public Set<Position> getPossibleMoves(GameState state, Position originalPos) {
 		
+		Map<Position, Piece> positionToPieceMap = state.getCurrentPositions();
 		Set<Position> possiblePositions = new HashSet<Position>();
 		int direction;
 		char col = originalPos.getColumn();

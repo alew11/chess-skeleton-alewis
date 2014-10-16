@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import chess.GameState;
 import chess.Player;
 import chess.Position;
 
@@ -21,27 +22,26 @@ public class Knight extends Piece {
     }
 
 	@Override
-	public Set<Position> getPossibleMoves(
-			Map<Position, Piece> positionToPieceMap, Position originalPos) {
+	public Set<Position> getPossibleMoves(GameState state, Position originalPos) {
 			
 		Set<Position> possiblePositions = new HashSet<Position>();
 		
 		// Left
-		possiblePositions.addAll(getMovesByDirection(positionToPieceMap, originalPos, -2, 0));
+		possiblePositions.addAll(getMovesByDirection(state, originalPos, -2, 0));
 		// Up
-		possiblePositions.addAll(getMovesByDirection(positionToPieceMap, originalPos, 0, 2));
+		possiblePositions.addAll(getMovesByDirection(state, originalPos, 0, 2));
 		// Right
-		possiblePositions.addAll(getMovesByDirection(positionToPieceMap, originalPos, 2, 0));
+		possiblePositions.addAll(getMovesByDirection(state, originalPos, 2, 0));
 		// Down
-		possiblePositions.addAll(getMovesByDirection(positionToPieceMap, originalPos, 0, -2));
+		possiblePositions.addAll(getMovesByDirection(state, originalPos, 0, -2));
 
 		
 		return possiblePositions;
 	}
 	
-	private Set<Position> getMovesByDirection(
-			Map<Position, Piece> positionToPieceMap, Position originalPos, int horiz, int vert) {
+	private Set<Position> getMovesByDirection(GameState state, Position originalPos, int horiz, int vert) {
 		
+		Map<Position, Piece> positionToPieceMap = state.getCurrentPositions();
 		Set<Position> possiblePositions = new HashSet<Position>();
 		Player player = positionToPieceMap.get(originalPos).getOwner();
 		char col = originalPos.getColumn();

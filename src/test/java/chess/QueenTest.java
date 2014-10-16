@@ -54,7 +54,7 @@ public class QueenTest {
 
     	actualPossible.put(new Position("c6"), positionsTo);
     	
-    	Map<Position, Set<Position>> calcedPossible = state.listPossibleMoves();   
+    	Map<Position, Set<Position>> calcedPossible = state.listPossibleMoves(state.getCurrentPlayer());   
     	
     	assertEquals(actualPossible, calcedPossible);
     	

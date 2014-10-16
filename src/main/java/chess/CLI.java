@@ -87,7 +87,7 @@ public class CLI {
     
     private void doList() {
     	writeOutput("White's Possible Moves:");
-    	Map<Position, Set<Position>> list = gameState.listPossibleMoves();
+    	Map<Position, Set<Position>> list = gameState.listPossibleMoves(gameState.getCurrentPlayer());
     	
     	for (Position posFrom : list.keySet()) {
     		for (Position posTo : list.get(posFrom)) {

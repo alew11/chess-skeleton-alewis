@@ -59,7 +59,7 @@ public class PawnTest {
     	positionsTo.add(new Position("e6"));
 		positionsTo.add(new Position("f6"));
 		
-		actualPossible.put(new Position("e8"), positionsTo);
+		actualPossible.put(new Position("e5"), positionsTo);
     	
     	Map<Position, Set<Position>> calcedPossible = state.listPossibleMoves();   
     	
@@ -76,7 +76,8 @@ public class PawnTest {
 		Map<Position, Set<Position>> actualPossible =  new HashMap<Position, Set<Position>>();
     	Set<Position> positionsToE2 = new HashSet<Position>();
     	Set<Position> positionsToB2 = new HashSet<Position>();
-    	
+    	Set<Position> positionsToC3 = new HashSet<Position>();
+  	
     	// All valid unmoved board moves
     	state.placePiece(new Pawn(Player.White), new Position("e2"));
     	// For take right
@@ -87,6 +88,9 @@ public class PawnTest {
     	// Blocked piece at second position
     	state.placePiece(new Pawn(Player.White), new Position("b2"));
     	state.placePiece(new Pawn(Player.Black), new Position("b4"));
+    	
+    	// Test that can't take piece of same color
+    	state.placePiece(new Pawn(Player.White), new Position("c3"));
 
 
     	positionsToE2.add(new Position("e3"));
@@ -96,8 +100,55 @@ public class PawnTest {
 		
 		positionsToB2.add(new Position("b3"));
 		
-		actualPossible.put(new Position("E2"), positionsToE2);
-		actualPossible.put(new Position("B2"), positionsToB2);
+		positionsToC3.add(new Position("b4"));
+		positionsToC3.add(new Position("c4"));
+		
+		actualPossible.put(new Position("e2"), positionsToE2);
+		actualPossible.put(new Position("b2"), positionsToB2);
+		actualPossible.put(new Position("c3"), positionsToC3);
+    	
+    	Map<Position, Set<Position>> calcedPossible = state.listPossibleMoves();   
+    	
+    	assertEquals(actualPossible, calcedPossible);
+    }
+	
+	/*
+     * Test for black pieces
+     */
+	@Test
+    public void testBlackPawns() {
+		
+		state.setCurrentPlayer(Player.Black);
+		
+    	Map<Position, Set<Position>> actualPossible =  new HashMap<Position, Set<Position>>();
+    	Set<Position> positionsToD6 = new HashSet<Position>();
+    	Set<Position> positionsToF6 = new HashSet<Position>();
+
+    	
+    	// Should be bound to board
+    	state.placePiece(new Pawn(Player.White), new Position("e8"));
+    	
+    	// All valid open board moves
+    	state.placePiece(new Pawn(Player.White), new Position("e5"));
+    	// For take right
+    	state.placePiece(new Pawn(Player.Black), new Position("d6"));
+    	// For take left
+    	state.placePiece(new Pawn(Player.Black), new Position("f6"));
+    	
+    	// Blocked piece
+    	state.placePiece(new Pawn(Player.White), new Position("b4"));
+    	state.placePiece(new Pawn(Player.Black), new Position("b5"));
+
+
+    	positionsToD6.add(new Position("d5"));
+    	positionsToD6.add(new Position("e5"));
+		positionsToF6.add(new Position("f5"));
+    	positionsToF6.add(new Position("e5"));
+
+		
+		actualPossible.put(new Position("d6"), positionsToD6);
+		actualPossible.put(new Position("f66"), positionsToF6);
+
     	
     	Map<Position, Set<Position>> calcedPossible = state.listPossibleMoves();   
     	

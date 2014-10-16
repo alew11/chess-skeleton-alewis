@@ -51,18 +51,19 @@ public class Rook extends Piece {
 		col += horiz;
 		row += vert;
 		
+		// While the piece is still on the board
 		while (col >= Position.MIN_COLUMN && col <= Position.MAX_COLUMN && row >= Position.MIN_ROW && row <= Position.MAX_ROW) {
 			Position testPos = new Position(col, row);
 			
+			// If no piece is on the next square add the square to possibilities
 			if (positionToPieceMap.get(testPos) == null) {
 				possiblePositions.add(testPos);
 			} else {
-				if (positionToPieceMap.get(testPos).getOwner().equals(player)) {
-					break;
-				} else {
+				// If the piece is the opponents add the square, else do not
+				if (!positionToPieceMap.get(testPos).getOwner().equals(player)) {
 					possiblePositions.add(testPos);
-					break;
-				}
+				} 
+				break;
 			}
 			col += horiz;
 			row += vert;

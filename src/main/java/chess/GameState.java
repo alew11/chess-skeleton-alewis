@@ -119,4 +119,12 @@ public class GameState {
     	}
     	return listOfMoves;
     }
+    
+    /**
+     * Change the current players color
+     * @param player color to change to
+     */
+    public void setCurrentPlayer(Player player) {
+    	currentPlayer = player;
+    }
 }

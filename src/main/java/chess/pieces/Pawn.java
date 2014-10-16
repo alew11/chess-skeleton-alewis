@@ -50,12 +50,12 @@ public class Pawn extends Piece {
 		// One space ahead
 		if (!positionToPieceMap.containsKey(new Position(col, row + direction))) {
 			possiblePositions.add(new Position(col, row + direction));
+			
 		}
 		
 		// Two space ahead
-		if ((player.equals(Player.White) && row == 2) || (player.equals(Player.Black) && row == 7)) {	
-		
-			if (!positionToPieceMap.containsKey(new Position(col, row + 2*(direction)))) {
+		if ((player.equals(Player.White) && row == 2) || (player.equals(Player.Black) && row == 7)) {
+			if (positionToPieceMap.get(new Position(col, row+2*(direction))) == null) {
 				possiblePositions.add(new Position(col, row + 2*(direction)));
 			}
 		}
@@ -74,5 +74,38 @@ public class Pawn extends Piece {
 
 		return possiblePositions;
 	}
+	
+	// Return true if king is safe, false otherwise
+		private boolean kingSafetyCheck(GameState state, Position testPosFrom, Position testPosTo) {
+			
+			Map<Position, Piece> currentBoard = state.getCurrentPositions();
+			Position currKingPos = null;
+			
+			currentBoard.put(testPosTo, currentBoard.get(testPosFrom));
+			currentBoard.remove(testPosFrom);
+			
+			for (Position pos : currentBoard.keySet()) {
+				if (currentBoard.get(pos).getOwner() == state.getCurrentPlayer() && currentBoard.get(pos) instanceof King) {
+					currKingPos = pos;
+				}
+			}
+			
+			// No king on the board thus king is 'safe'
+			if (currKingPos == null) {
+				return true;
+			}
+			
+			Map<Position, Set<Position>> opponentPossibleMoves = state.listPossibleMoves(state.getOpposingPlayer());
+
+			for (Position posAt : opponentPossibleMoves.keySet()) {
+				for (Position posAttacking : opponentPossibleMoves.get(posAt)) {
+					if (posAttacking == currKingPos) {
+						return false;
+					}
+				}
+			}
+			
+			return true;
+		}
 	
 }

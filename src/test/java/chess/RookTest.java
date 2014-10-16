@@ -29,7 +29,7 @@ public class RookTest {
 	}
 
 	@Test
-	public void test() {
+	public void testRookMovement() {
 		
 		Map<Position, Set<Position>> actualPossible =  new HashMap<Position, Set<Position>>();
     	Set<Position> positionsTo = new HashSet<Position>();

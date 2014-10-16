@@ -1,6 +1,10 @@
 package chess.pieces;
 
+import java.util.Map;
+import java.util.Set;
+
 import chess.Player;
+import chess.Position;
 
 /**
  * A base class for chess pieces
@@ -26,4 +30,6 @@ public abstract class Piece {
     }
 
     protected abstract char getIdentifyingCharacter();
+    
+    public abstract Set<Position> getPossibleMoves(Map<Position, Piece> positionToPieceMap, Position originalPos);
 }

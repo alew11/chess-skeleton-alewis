@@ -49,8 +49,9 @@ public class RookTest {
     	positionsTo.add(new Position("b5"));
     	positionsTo.add(new Position("c5"));
     	positionsTo.add(new Position("d6"));
+    	positionsTo.add(new Position("d7"));
 
-    	actualPossible.put(new Position("e5"), positionsTo);
+    	actualPossible.put(new Position("d5"), positionsTo);
     	
     	Map<Position, Set<Position>> calcedPossible = state.listPossibleMoves();   
     	

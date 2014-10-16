@@ -12,7 +12,6 @@ import org.junit.Test;
 
 import chess.pieces.Knight;
 import chess.pieces.Pawn;
-import chess.pieces.Rook;
 
 public class KnightTest {
 

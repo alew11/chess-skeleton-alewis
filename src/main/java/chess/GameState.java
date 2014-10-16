@@ -107,7 +107,16 @@ public class GameState {
      * Method to list possible moves of current player
      * @return
      */
-    public Set<Position> listPossibleMoves() {
-    	return null;
+    public Map<Position, Set<Position>> listPossibleMoves() {
+    	
+    	Map<Position, Set<Position>> listOfMoves = new HashMap<Position, Set<Position>>();
+       	for (Position pos : positionToPieceMap.keySet()) {
+       		Set<Position> positionsTo = positionToPieceMap.get(pos).getPossibleMoves(positionToPieceMap, pos);
+       		if ((positionToPieceMap.get(pos).getOwner() == currentPlayer) && (positionsTo != null) && (!positionsTo.isEmpty())) {
+       			
+       			listOfMoves.put(pos, positionsTo);
+       		}
+    	}
+    	return listOfMoves;
     }
 }

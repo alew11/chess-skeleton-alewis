@@ -37,17 +37,20 @@ public class QueenTest {
     	
     	positionsTo.add(new Position("b7"));
     	positionsTo.add(new Position("a8"));
+    	positionsTo.add(new Position("c7"));
+    	positionsTo.add(new Position("c8"));
     	positionsTo.add(new Position("d7"));
     	positionsTo.add(new Position("d6"));
     	positionsTo.add(new Position("e6"));
     	positionsTo.add(new Position("d5"));
     	positionsTo.add(new Position("e4"));
     	positionsTo.add(new Position("c5"));
-    	positionsTo.add(new Position("e4"));
+    	positionsTo.add(new Position("c4"));
     	positionsTo.add(new Position("b5"));
     	positionsTo.add(new Position("a4"));
     	positionsTo.add(new Position("b6"));
     	positionsTo.add(new Position("a6"));
+
 
     	actualPossible.put(new Position("c6"), positionsTo);
     	

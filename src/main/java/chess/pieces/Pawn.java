@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import chess.GameState;
 import chess.Player;
 import chess.Position;
 
@@ -26,86 +25,48 @@ public class Pawn extends Piece {
     }
 
 	@Override
-	public Set<Position> getPossibleMoves(GameState state, Position originalPos) {
+	public Set<Position> getPossibleMoves(Map<Position, Piece> board, Position originalPos) {
 		
-		Map<Position, Piece> positionToPieceMap = state.getCurrentPositions();
 		Set<Position> possiblePositions = new HashSet<Position>();
-		int direction;
+		
+		Player player = board.get(originalPos).getOwner();
 		char col = originalPos.getColumn();
 		int row = originalPos.getRow();
-		Player player = positionToPieceMap.get(originalPos).getOwner();
+		int direction;
 		
-		// Check to make sure within bounds
-		// TODO: Can expand to handle positions that aren't possible (Pawn in back row)
-		if (row == Position.MAX_ROW || row == Position.MIN_ROW) {
-			return null;
-		}
-		
-		if (player.equals(Player.White)) {
+		// If white up the board, if black down the board
+		if (player == Player.White) {
 			direction = 1;
 		} else {
 			direction = -1;
 		}
 		
-		// One space ahead
-		if (!positionToPieceMap.containsKey(new Position(col, row + direction))) {
-			possiblePositions.add(new Position(col, row + direction));
-			
+		// If edge of board no moves
+		if ((row == 8 && player == Player.White) || row == 1 && player == Player.Black) {
+			return null;
 		}
 		
-		// Two space ahead
-		if ((player.equals(Player.White) && row == 2) || (player.equals(Player.Black) && row == 7)) {
-			if (positionToPieceMap.get(new Position(col, row+2*(direction))) == null) {
-				possiblePositions.add(new Position(col, row + 2*(direction)));
-			}
+		// One move forward
+		if (board.get(new Position(col, row + direction)) == null) {
+			possiblePositions.add(new Position(col, row + (direction)));
 		}
 		
+		// Two forward
+		if (board.get(new Position(col, row + direction)) == null && board.get(new Position(col, row + direction + direction)) == null && row == 2 && player == Player.White) {
+			possiblePositions.add(new Position(col, row + direction + direction));
+		}
+		if (board.get(new Position(col, row + direction)) == null && board.get(new Position(col, row + direction + direction)) == null && row == 7 && player == Player.Black) {
+			possiblePositions.add(new Position(col, row + direction + direction));
+		}
 		
-		// Take diagonal
-		Piece diagLeft = positionToPieceMap.get(new Position((char)(col - 1), row + direction));
-		Piece diagRight = positionToPieceMap.get(new Position((char)(col + 1), row + direction));
-		
-		if (diagLeft != null && !diagLeft.getOwner().equals(player)) {
+		if (board.get(new Position((char)(col - 1), row + direction)) != null && board.get(new Position((char)(col - 1), row + direction)).getOwner() != player) {
 			possiblePositions.add(new Position((char)(col - 1), row + direction));
 		}
-		if (diagRight != null && !diagRight.getOwner().equals(player)) {
+		if (board.get(new Position((char)(col + 1), row + direction)) != null && board.get(new Position((char)(col + 1), row + direction)).getOwner() != player) {
 			possiblePositions.add(new Position((char)(col + 1), row + direction));
 		}
-
+		
 		return possiblePositions;
 	}
-	
-	// Return true if king is safe, false otherwise
-		private boolean kingSafetyCheck(GameState state, Position testPosFrom, Position testPosTo) {
-			
-			Map<Position, Piece> currentBoard = state.getCurrentPositions();
-			Position currKingPos = null;
-			
-			currentBoard.put(testPosTo, currentBoard.get(testPosFrom));
-			currentBoard.remove(testPosFrom);
-			
-			for (Position pos : currentBoard.keySet()) {
-				if (currentBoard.get(pos).getOwner() == state.getCurrentPlayer() && currentBoard.get(pos) instanceof King) {
-					currKingPos = pos;
-				}
-			}
-			
-			// No king on the board thus king is 'safe'
-			if (currKingPos == null) {
-				return true;
-			}
-			
-			Map<Position, Set<Position>> opponentPossibleMoves = state.listPossibleMoves(state.getOpposingPlayer());
-
-			for (Position posAt : opponentPossibleMoves.keySet()) {
-				for (Position posAttacking : opponentPossibleMoves.get(posAt)) {
-					if (posAttacking == currKingPos) {
-						return false;
-					}
-				}
-			}
-			
-			return true;
-		}
 	
 }

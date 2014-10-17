@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import chess.GameState;
 import chess.Player;
 import chess.Position;
 
@@ -22,28 +21,27 @@ public class Knight extends Piece {
     }
 
 	@Override
-	public Set<Position> getPossibleMoves(GameState state, Position originalPos) {
+	public Set<Position> getPossibleMoves(Map<Position, Piece> board, Position originalPos) {
 			
 		Set<Position> possiblePositions = new HashSet<Position>();
 		
 		// Left
-		possiblePositions.addAll(getMovesByDirection(state, originalPos, -2, 0));
+		possiblePositions.addAll(getMovesByDirection(board, originalPos, -2, 0));
 		// Up
-		possiblePositions.addAll(getMovesByDirection(state, originalPos, 0, 2));
+		possiblePositions.addAll(getMovesByDirection(board, originalPos, 0, 2));
 		// Right
-		possiblePositions.addAll(getMovesByDirection(state, originalPos, 2, 0));
+		possiblePositions.addAll(getMovesByDirection(board, originalPos, 2, 0));
 		// Down
-		possiblePositions.addAll(getMovesByDirection(state, originalPos, 0, -2));
+		possiblePositions.addAll(getMovesByDirection(board, originalPos, 0, -2));
 
 		
 		return possiblePositions;
 	}
 	
-	private Set<Position> getMovesByDirection(GameState state, Position originalPos, int horiz, int vert) {
+	private Set<Position> getMovesByDirection(Map<Position, Piece> board, Position originalPos, int horiz, int vert) {
 		
-		Map<Position, Piece> positionToPieceMap = state.getCurrentPositions();
 		Set<Position> possiblePositions = new HashSet<Position>();
-		Player player = positionToPieceMap.get(originalPos).getOwner();
+		Player player = board.get(originalPos).getOwner();
 		char col = originalPos.getColumn();
 		int row = originalPos.getRow();
 		Position testPos1;
@@ -62,11 +60,11 @@ public class Knight extends Piece {
 		if (testPos1.getColumn() >= Position.MIN_COLUMN && testPos1.getColumn() <= Position.MAX_COLUMN
 				&& testPos1.getRow() >= Position.MIN_ROW && testPos1.getRow() <= Position.MAX_ROW) {
 			// If there is no piece on the square add the piece
-			if (positionToPieceMap.get(testPos1) == null) {
+			if (board.get(testPos1) == null) {
 				possiblePositions.add(testPos1);
 			} else {
 				// If the piece is the opponent's, able to capture
-				if (!positionToPieceMap.get(testPos1).getOwner().equals(player)) {
+				if (!board.get(testPos1).getOwner().equals(player)) {
 					possiblePositions.add(testPos1);
 				}
 				}
@@ -76,10 +74,10 @@ public class Knight extends Piece {
 		// Check the second possible short tail
 		if (testPos2.getColumn() >= Position.MIN_COLUMN && testPos2.getColumn() <= Position.MAX_COLUMN
 				&& testPos2.getRow() >= Position.MIN_ROW && testPos2.getRow() <= Position.MAX_ROW) {
-			if (positionToPieceMap.get(testPos2) == null) {
+			if (board.get(testPos2) == null) {
 				possiblePositions.add(testPos2);
 			} else {
-				if (!positionToPieceMap.get(testPos2).getOwner().equals(player)) {
+				if (!board.get(testPos2).getOwner().equals(player)) {
 					possiblePositions.add(testPos2);
 				}
 				}

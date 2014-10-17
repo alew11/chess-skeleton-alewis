@@ -1,5 +1,6 @@
 package chess.pieces;
 
+import java.util.Map;
 import java.util.Set;
 
 import chess.GameState;
@@ -31,5 +32,5 @@ public abstract class Piece {
 
     protected abstract char getIdentifyingCharacter();
     
-    public abstract Set<Position> getPossibleMoves(GameState state, Position originalPos);
+    public abstract Set<Position> getPossibleMoves(Map<Position, Piece> board, Position originalPos);
 }

@@ -40,7 +40,7 @@ public class KingTest {
 
     	actualPossible.put(new Position("d8"), positionsTo);
     	
-    	Map<Position, Set<Position>> calcedPossible = state.listPossibleMoves(state.getCurrentPlayer());   
+    	Map<Position, Set<Position>> calcedPossible = state.getPossibleMoveList(state.getCurrentPlayer()); 
     	
     	assertEquals(actualPossible, calcedPossible);
     	

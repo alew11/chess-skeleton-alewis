@@ -61,8 +61,9 @@ public class PawnTest {
 		
 		actualPossible.put(new Position("e5"), positionsTo);
     	
-    	Map<Position, Set<Position>> calcedPossible = state.listPossibleMoves(state.getCurrentPlayer());   
-    	
+    	Map<Position, Set<Position>> calcedPossible = state.getPossibleMoveList(state.getCurrentPlayer()); 
+
+
     	assertEquals(actualPossible, calcedPossible);
     }
 	
@@ -107,8 +108,9 @@ public class PawnTest {
 		actualPossible.put(new Position("b2"), positionsToB2);
 		actualPossible.put(new Position("c3"), positionsToC3);
     	
-    	Map<Position, Set<Position>> calcedPossible = state.listPossibleMoves(state.getCurrentPlayer());   
-    	
+    	Map<Position, Set<Position>> calcedPossible = state.getPossibleMoveList(state.getCurrentPlayer()); 
+
+
     	assertEquals(actualPossible, calcedPossible);
     }
 	
@@ -150,7 +152,8 @@ public class PawnTest {
 		actualPossible.put(new Position("f66"), positionsToF6);
 
     	
-    	Map<Position, Set<Position>> calcedPossible = state.listPossibleMoves(state.getCurrentPlayer());   
+    	Map<Position, Set<Position>> calcedPossible = state.getPossibleMoveList(state.getCurrentPlayer()); 
+
     	
     	assertEquals(actualPossible, calcedPossible);
     }

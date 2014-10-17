@@ -41,7 +41,7 @@ private GameState state;
 
     	actualPossible.put(new Position("b6"), positionsTo);
     	
-    	Map<Position, Set<Position>> calcedPossible = state.listPossibleMoves(state.getCurrentPlayer());   
+    	Map<Position, Set<Position>> calcedPossible = state.getPossibleMoveList(state.getCurrentPlayer()); 
     	
     	assertEquals(actualPossible, calcedPossible);
     	

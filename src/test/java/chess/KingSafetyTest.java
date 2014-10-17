@@ -41,8 +41,8 @@ public class KingSafetyTest {
 
     	actualPossible.put(new Position("d1"), positionsTo);
     	
-    	Map<Position, Set<Position>> calcedPossible = state.listPossibleMoves(state.getCurrentPlayer());   
-    	
+    	Map<Position, Set<Position>> calcedPossible = state.getPossibleMoveList(state.getCurrentPlayer()); 
+
     	assertEquals(actualPossible, calcedPossible);
     	
 	}
@@ -62,8 +62,8 @@ public class KingSafetyTest {
 
     	actualPossible.put(new Position("e1"), positionsTo);
     	
-    	Map<Position, Set<Position>> calcedPossible = state.listPossibleMoves(state.getCurrentPlayer());   
-    	
+    	Map<Position, Set<Position>> calcedPossible = state.getPossibleMoveList(state.getCurrentPlayer()); 
+
     	assertEquals(actualPossible, calcedPossible);
     	
 	}

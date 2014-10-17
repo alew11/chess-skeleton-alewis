@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import chess.GameState;
 import chess.Player;
 import chess.Position;
 
@@ -23,28 +22,27 @@ public class Rook extends Piece {
     }
 
 	@Override
-	public Set<Position> getPossibleMoves(GameState state, Position originalPos) {
+	public Set<Position> getPossibleMoves(Map<Position, Piece> board, Position originalPos) {
 		
 		Set<Position> possiblePositions = new HashSet<Position>();
 		
 		// Left
-		possiblePositions.addAll(getMovesByDirection(state, originalPos, -1, 0));
+		possiblePositions.addAll(getMovesByDirection(board, originalPos, -1, 0));
 		// Up
-		possiblePositions.addAll(getMovesByDirection(state, originalPos, 0, 1));
+		possiblePositions.addAll(getMovesByDirection(board, originalPos, 0, 1));
 		// Right
-		possiblePositions.addAll(getMovesByDirection(state, originalPos, 1, 0));
+		possiblePositions.addAll(getMovesByDirection(board, originalPos, 1, 0));
 		// Down
-		possiblePositions.addAll(getMovesByDirection(state, originalPos, 0, -1));
+		possiblePositions.addAll(getMovesByDirection(board, originalPos, 0, -1));
 
 		
 		return possiblePositions;
 	}
 	
-	private Set<Position> getMovesByDirection(GameState state, Position originalPos, int horiz, int vert) {
+	private Set<Position> getMovesByDirection(Map<Position, Piece> board, Position originalPos, int horiz, int vert) {
 		
-		Map<Position, Piece> positionToPieceMap = state.getCurrentPositions();
 		Set<Position> possiblePositions = new HashSet<Position>();
-		Player player = positionToPieceMap.get(originalPos).getOwner();
+		Player player = board.get(originalPos).getOwner();
 		char col = originalPos.getColumn();
 		int row = originalPos.getRow();
 		
@@ -56,11 +54,11 @@ public class Rook extends Piece {
 			Position testPos = new Position(col, row);
 			
 			// If no piece is on the next square add the square to possibilities
-			if (positionToPieceMap.get(testPos) == null) {
+			if (board.get(testPos) == null) {
 				possiblePositions.add(testPos);
 			} else {
 				// If the piece is the opponents add the square, else do not
-				if (!positionToPieceMap.get(testPos).getOwner().equals(player)) {
+				if (!board.get(testPos).getOwner().equals(player)) {
 					possiblePositions.add(testPos);
 				} 
 				break;

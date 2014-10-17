@@ -53,7 +53,7 @@ public class RookTest {
 
     	actualPossible.put(new Position("d5"), positionsTo);
     	
-    	Map<Position, Set<Position>> calcedPossible = state.listPossibleMoves(state.getCurrentPlayer());   
+    	Map<Position, Set<Position>> calcedPossible = state.getPossibleMoveList(state.getCurrentPlayer()); 
     	
     	assertEquals(actualPossible, calcedPossible);
     	

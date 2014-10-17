@@ -66,7 +66,7 @@ public class CLI {
                 } else if (input.equals("board")) {
                     writeOutput("Current Game:");
                 } else if (input.equals("list")) {
-                    //doList();
+                    doList();
                 } else if (input.startsWith("move")) {
                     writeOutput("====> Move Is Not Implemented (yet) <====");
                 } else {
@@ -85,17 +85,15 @@ public class CLI {
         writeOutput(getBoardAsString());
     }
     
-    //TODO: Fix this
-//    private void doList() {
-//    	writeOutput("White's Possible Moves:");
-//    	//Map<Position, Set<Position>> list = gameState.listPossibleMoves(gameState.getCurrentPlayer());
-//    	
-//    	for (Position posFrom : list.keySet()) {
-//    		for (Position posTo : list.get(posFrom)) {
-//    			writeOutput("\t" + posFrom.toString() + " " + posTo.toString());
-//    		}
-//    	}
-//    }
+    private void doList() {
+    	writeOutput(gameState.getCurrentPlayer().toString() + "'s Possible Moves:");
+    	Map<Position, Set<Position>> possibleMoves = gameState.getPossibleMoveList(gameState.getCurrentPlayer());
+    	for (Position posFrom : possibleMoves.keySet()) {
+    		for (Position posTo : possibleMoves.get(posFrom)) {
+    			writeOutput(posFrom.toString() + " " + posTo.toString());
+    		}
+    	}
+    }
 
     private void showCommands() {
         writeOutput("Possible commands: ");

@@ -50,4 +50,18 @@ public class BishopTest {
     	
 	}
 
+	@Test
+	public void testBlackBishopMovement() {
+		
+		state.placePiece(new Bishop(Player.Black), new Position("c6"));
+    	state.placePiece(new Pawn(Player.White), new Position("e8"));
+    	state.placePiece(new Pawn(Player.White), new Position("e4"));
+    	
+    	state.setCurrentPlayer(Player.Black);
+    	
+    	Map<Position, Set<Position>> calcedPossible = state.getPossibleMoveList(state.getCurrentPlayer()); 
+
+    	assertEquals(8, calcedPossible.get(new Position("c6")).size());
+    	
+	}
 }

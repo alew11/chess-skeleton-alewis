@@ -45,5 +45,18 @@ public class KingTest {
     	assertEquals(actualPossible, calcedPossible);
     	
 	}
+	
+	@Test
+	public void testBlackKingMovement() {
+		
+		state.placePiece(new King(Player.Black), new Position("b6"));
+    	
+    	state.setCurrentPlayer(Player.Black);
+    	
+    	Map<Position, Set<Position>> calcedPossible = state.getPossibleMoveList(state.getCurrentPlayer()); 
+
+    	assertEquals(8, calcedPossible.get(new Position("b6")).size());
+    	
+	}
 
 }

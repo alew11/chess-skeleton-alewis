@@ -46,5 +46,18 @@ private GameState state;
     	assertEquals(actualPossible, calcedPossible);
     	
 	}
+	
+	@Test
+	public void testBlackKnightMovement() {
+		
+		state.placePiece(new Knight(Player.Black), new Position("g6"));
+    	
+    	state.setCurrentPlayer(Player.Black);
+    	
+    	Map<Position, Set<Position>> calcedPossible = state.getPossibleMoveList(state.getCurrentPlayer()); 
+
+    	assertEquals(6, calcedPossible.get(new Position("g6")).size());
+    	
+	}
 
 }

@@ -58,5 +58,19 @@ public class RookTest {
     	assertEquals(actualPossible, calcedPossible);
     	
 	}
+	
+	@Test
+	public void testBlackRookMovement() {
+		
+		state.placePiece(new Rook(Player.Black), new Position("e4"));
+    	state.placePiece(new Pawn(Player.White), new Position("e8"));
+    	
+    	state.setCurrentPlayer(Player.Black);
+    	
+    	Map<Position, Set<Position>> calcedPossible = state.getPossibleMoveList(state.getCurrentPlayer()); 
+
+    	assertEquals(14, calcedPossible.get(new Position("e4")).size());
+    	
+	}
 
 }

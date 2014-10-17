@@ -59,4 +59,18 @@ public class QueenTest {
     	assertEquals(actualPossible, calcedPossible);
     	
 	}
+	
+	@Test
+	public void testBlackQueenMovement() {
+		
+		state.placePiece(new Queen(Player.Black), new Position("c2"));
+    	state.placePiece(new Pawn(Player.White), new Position("e8"));
+    	
+    	state.setCurrentPlayer(Player.Black);
+    	
+    	Map<Position, Set<Position>> calcedPossible = state.getPossibleMoveList(state.getCurrentPlayer()); 
+
+    	assertEquals(23, calcedPossible.get(new Position("c2")).size());
+    	
+	}
 }

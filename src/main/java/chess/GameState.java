@@ -35,10 +35,6 @@ public class GameState {
         possibleBlackMoves = new HashMap<Position, Set<Position>>();
 
     }
-    
-    public Player getCurrentPlayer() {
-        return currentPlayer;
-    }
 
     /**
      * Call to initialize the game state into the starting positions
@@ -111,8 +107,7 @@ public class GameState {
         possibleBlackMoves.clear();
         possibleWhiteMoves = calculatePossibleMoves(positionToPieceMap, Player.White);
         possibleBlackMoves = calculatePossibleMoves(positionToPieceMap, Player.Black);
-    	trimIllegalMoves(Player.White);
-    	trimIllegalMoves(Player.Black);
+        trimIllegalMoves();
 
     }
     
@@ -152,6 +147,10 @@ public class GameState {
     		return Player.White;
     	}
     }   
+    
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
     
     /**
      * Return the position of the king corresponding to the player's color, else return null (no king present)
@@ -195,59 +194,114 @@ public class GameState {
     
     /**
      * Trim moves from the possible move list that expose the king to check
-     * @param player determine which list will be trimmed
      */
-    private void trimIllegalMoves(Player player) {
+    private void trimIllegalMoves() {
     	
     	Map<Position, Piece> tentativeBoard = new HashMap<Position, Piece>();
     	Map<Position, Set<Position>> actualAllowedMoves = new HashMap<Position, Set<Position>>();
-    	
-    	if (player == Player.White) {
-    		// For all moves in the possible move list
-	    	for (Position from : possibleWhiteMoves.keySet()) {
-	        	Set<Position> legalMoves = new HashSet<Position>();
-	    		legalMoves.clear();
-	    		for (Position to : possibleWhiteMoves.get(from)) {
-	    			tentativeBoard.clear();
-	    			//Move the piece
-	    	    	tentativeBoard.putAll(positionToPieceMap);
-	    			tentativeBoard.put(to, tentativeBoard.get(from));
-	    			tentativeBoard.remove(from);
-	    			// Calculate the opponents moves on the new board
-	    			Map<Position, Set<Position>> tentativeMovesForBlack = calculatePossibleMoves(tentativeBoard, Player.Black);
-	    			// If the king is safe on the new board, add the move
-	    			if (kingSafetyCheck(tentativeBoard, tentativeMovesForBlack, Player.White)) {
-	    				legalMoves.add(to);    				
-	    			}
-	    		}
-	    		// If the piece is able to be moved somewhere, add the set of possibilities
-	    		if (!legalMoves.isEmpty()) {
-	    			actualAllowedMoves.put(from, legalMoves);
-	    		}
-	    	}
-	    	possibleWhiteMoves.clear();
-	    	possibleWhiteMoves.putAll(actualAllowedMoves);
-    	} else {
-    		for (Position from : possibleBlackMoves.keySet()) {
-	        	Set<Position> legalMoves = new HashSet<Position>();
-	    		legalMoves.clear();
-	    		for (Position to : possibleBlackMoves.get(from)) {
-	    			tentativeBoard.clear();
-	    	    	tentativeBoard.putAll(positionToPieceMap);
-	    			tentativeBoard.put(to, tentativeBoard.get(from));
-	    			tentativeBoard.remove(from);
-	    			Map<Position, Set<Position>> tentativeMovesForWhite = calculatePossibleMoves(tentativeBoard, Player.White);
-	    			if (kingSafetyCheck(tentativeBoard, tentativeMovesForWhite, Player.Black)) {
-	    				legalMoves.add(to);    				
-	    			}
-	    		}
-	    		if (!legalMoves.isEmpty()) {
-	    			actualAllowedMoves.put(from, legalMoves);
-	    		}
-	    	}
-	    	possibleBlackMoves.clear();
-	    	possibleBlackMoves.putAll(actualAllowedMoves);
+	
+		// For all moves in the possible move list
+    	for (Position from : possibleWhiteMoves.keySet()) {
+        	Set<Position> legalMoves = new HashSet<Position>();
+    		legalMoves.clear();
+    		for (Position to : possibleWhiteMoves.get(from)) {
+    			tentativeBoard.clear();
+    			//Move the piece
+    	    	tentativeBoard.putAll(positionToPieceMap);
+    			tentativeBoard.put(to, tentativeBoard.get(from));
+    			tentativeBoard.remove(from);
+    			// Calculate the opponents moves on the new board
+    			Map<Position, Set<Position>> tentativeMovesForBlack = calculatePossibleMoves(tentativeBoard, Player.Black);
+    			// If the king is safe on the new board, add the move
+    			if (kingSafetyCheck(tentativeBoard, tentativeMovesForBlack, Player.White)) {
+    				legalMoves.add(to);    				
+    			}
+    		}
+    		// If the piece is able to be moved somewhere, add the set of possibilities
+    		if (!legalMoves.isEmpty()) {
+    			actualAllowedMoves.put(from, legalMoves);
+    		}
     	}
+    	possibleWhiteMoves.clear();
+    	possibleWhiteMoves.putAll(actualAllowedMoves);
+    	
+    	tentativeBoard.clear();
+    	actualAllowedMoves.clear();
+	
+		for (Position from : possibleBlackMoves.keySet()) {
+        	Set<Position> legalMoves = new HashSet<Position>();
+    		legalMoves.clear();
+    		for (Position to : possibleBlackMoves.get(from)) {
+    			tentativeBoard.clear();
+    	    	tentativeBoard.putAll(positionToPieceMap);
+    			tentativeBoard.put(to, tentativeBoard.get(from));
+    			tentativeBoard.remove(from);
+    			Map<Position, Set<Position>> tentativeMovesForWhite = calculatePossibleMoves(tentativeBoard, Player.White);
+    			if (kingSafetyCheck(tentativeBoard, tentativeMovesForWhite, Player.Black)) {
+    				legalMoves.add(to);    				
+    			}
+    		}
+    		if (!legalMoves.isEmpty()) {
+    			actualAllowedMoves.put(from, legalMoves);
+    		}
+    	}
+    	possibleBlackMoves.clear();
+    	possibleBlackMoves.putAll(actualAllowedMoves);
+	}
+    
+    /**
+     * Method for moving piece
+     * @param from position to move from
+     * @param to position to move to
+     * @return True if move is valid, false otherwise
+     */
+    public boolean movePiece(Position from, Position to) {
+    	
+    	// Test whether there is a piece at the from position
+    	if (!positionToPieceMap.containsKey(from)) {
+    		return false;
+    	}
+    	
+    	Player player = positionToPieceMap.get(from).getOwner();
+    	
+    	// Test to make sure from is owned by the current player
+    	if (player != getCurrentPlayer()) {
+    		return false;
+    	}
+    	
+    	// Make sure the move is valid by comparing to possible move list
+    	if (player == Player.White) {
+    		if (!possibleWhiteMoves.containsKey(from)) {
+    			return false;
+    		}
+    		if (!possibleWhiteMoves.get(from).contains(to)) {
+    			return false;
+    		}
+    		// move the piece
+    		Piece pieceToMove = positionToPieceMap.get(from);
+    		positionToPieceMap.remove(from);
+    		placePiece(pieceToMove, to);
+    		// Switch players
+    		setCurrentPlayer(getOpposingPlayer());
+    		return true;
+    	}
+    	
+    	if (player == Player.Black) {
+    		if (!possibleBlackMoves.containsKey(from)) {
+    			return false;
+    		}
+    		if (!possibleBlackMoves.get(from).contains(to)) {
+    			return false;
+    		}
+    		Piece pieceToMove = positionToPieceMap.get(from);
+    		positionToPieceMap.remove(from);
+    		placePiece(pieceToMove, to);
+    		setCurrentPlayer(getOpposingPlayer());
+    		return true;
+    	}
+    	
+    	
+    	return false;
     }
     
 }

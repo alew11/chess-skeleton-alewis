@@ -68,7 +68,11 @@ public class CLI {
                 } else if (input.equals("list")) {
                     doList();
                 } else if (input.startsWith("move")) {
-                    writeOutput("====> Move Is Not Implemented (yet) <====");
+                	String posFrom = input.substring(5, 7);
+                	String posTo = input.substring(8, 10);
+                	if (!gameState.movePiece(new Position(posFrom), new Position(posTo))) {
+                		writeOutput("Invalid move");
+                	}
                 } else {
                     writeOutput("I didn't understand that.  Type 'help' for a list of commands.");
                 }

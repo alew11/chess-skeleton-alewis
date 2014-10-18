@@ -256,7 +256,7 @@ public class GameState {
      * @return True if move is valid, false otherwise
      */
     public boolean movePiece(Position from, Position to) {
-    	
+    	    	
     	// Test whether there is a piece at the from position
     	if (!positionToPieceMap.containsKey(from)) {
     		return false;
@@ -304,4 +304,29 @@ public class GameState {
     	return false;
     }
     
+    public int checkForMate() {
+    	
+    	Player player = getCurrentPlayer();
+    	
+    	if (player == Player.White) {
+    		if (!kingSafetyCheck(positionToPieceMap, possibleBlackMoves, player)) {
+    			if (possibleWhiteMoves.size() == 0) {
+    				return 0;
+    			} else {
+    				return 1;
+    			}
+    		}
+    	}
+    	if (player == Player.Black) {
+    		if (!kingSafetyCheck(positionToPieceMap, possibleWhiteMoves, player)) {
+    			if (possibleBlackMoves.size() == 0) {
+    				return 0;
+    			} else {
+    				return 1;
+    			}
+    		}
+    	}
+    	return 3;
+    }
+
 }

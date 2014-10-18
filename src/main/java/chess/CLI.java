@@ -73,6 +73,12 @@ public class CLI {
                 	if (!gameState.movePiece(new Position(posFrom), new Position(posTo))) {
                 		writeOutput("Invalid move");
                 	}
+                	int kingSafe = gameState.checkForMate();
+                	if (kingSafe == 0) {
+                		writeOutput("Checkmate!");
+                	} else if (kingSafe == 1) {
+                		writeOutput("Check!");
+                	}
                 } else {
                     writeOutput("I didn't understand that.  Type 'help' for a list of commands.");
                 }

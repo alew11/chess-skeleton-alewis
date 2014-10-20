@@ -16,6 +16,11 @@ import chess.pieces.Pawn;
 import chess.pieces.Queen;
 import chess.pieces.Rook;
 
+/*
+ * King safety scenarios
+ * King should not be able to move into check
+ * A pinned peice should only be able to move to squares that do not expose the king
+ */
 public class KingSafetyTest {
 
 	private GameState state;

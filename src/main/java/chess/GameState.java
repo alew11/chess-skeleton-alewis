@@ -111,6 +111,11 @@ public class GameState {
 
     }
     
+    /**
+     * Return the possible moves of either player
+     * @param player The player of which you wish to know the move list
+     * @return The move list
+     */
     public Map<Position, Set<Position>> getPossibleMoveList(Player player) {
     	//trimIllegalMoves(player);
     	if(player == Player.White) {
@@ -120,6 +125,12 @@ public class GameState {
     	}
     }   
     
+    /**
+     * Calculate all possible moves on a board for the player, UNTRIMMED OF PINS
+     * @param board the location of all the pieces
+     * @param player the current player
+     * @return list of moves possibly containing illegal moves (king into check, moving pinned piece)
+     */
     private Map<Position, Set<Position>> calculatePossibleMoves(Map<Position, Piece> board, Player player) {
     	
     	Map<Position, Set<Position>> listOfMoves = new HashMap<Position, Set<Position>>();
@@ -304,12 +315,20 @@ public class GameState {
     	return false;
     }
     
+    /**
+     * Check whether the current player is in check or checkmate
+     * @return 0 if in checkmate, 1 if in check, 2 otherwise
+     */
     public int checkForMate() {
     	
     	Player player = getCurrentPlayer();
     	
+    	// If the current player is white, check whether the king is safe relative
+    	// to black's possible moves
     	if (player == Player.White) {
     		if (!kingSafetyCheck(positionToPieceMap, possibleBlackMoves, player)) {
+    			// If the king is not safe, check the possible moves for white, 
+    			// If there are no possible moves, then it is checkmate
     			if (possibleWhiteMoves.size() == 0) {
     				return 0;
     			} else {
@@ -326,7 +345,7 @@ public class GameState {
     			}
     		}
     	}
-    	return 3;
+    	return 2;
     }
 
 }

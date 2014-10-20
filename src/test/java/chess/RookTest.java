@@ -27,7 +27,7 @@ public class RookTest {
 		state = new GameState();
 
 	}
-
+	
 	@Test
 	public void testRookMovement() {
 		

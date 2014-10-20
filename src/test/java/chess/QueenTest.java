@@ -13,6 +13,11 @@ import org.junit.Test;
 import chess.pieces.Pawn;
 import chess.pieces.Queen;
 
+/*
+ * Possible queen scenarios
+ * Move horizontal, vertically, and diagonally
+ * Take piece of opposite color, stop next to piece of same color
+ */
 public class QueenTest {
 
 	private GameState state;

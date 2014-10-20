@@ -13,6 +13,11 @@ import org.junit.Test;
 import chess.pieces.King;
 import chess.pieces.Pawn;
 
+/*
+ * Possible king scenarios
+ * Move one square horizontal, vertically, and diagonally
+ * Take piece of opposite color, stop next to piece of same color
+ */
 public class KingTest {
 
 	private GameState state;

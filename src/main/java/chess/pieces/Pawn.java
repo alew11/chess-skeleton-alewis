@@ -59,9 +59,12 @@ public class Pawn extends Piece {
 			possiblePositions.add(new Position(col, row + direction + direction));
 		}
 		
+		// Take left
 		if (board.get(new Position((char)(col - 1), row + direction)) != null && board.get(new Position((char)(col - 1), row + direction)).getOwner() != player) {
 			possiblePositions.add(new Position((char)(col - 1), row + direction));
 		}
+		
+		// Take right
 		if (board.get(new Position((char)(col + 1), row + direction)) != null && board.get(new Position((char)(col + 1), row + direction)).getOwner() != player) {
 			possiblePositions.add(new Position((char)(col + 1), row + direction));
 		}

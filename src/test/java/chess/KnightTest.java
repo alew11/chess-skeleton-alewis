@@ -13,6 +13,11 @@ import org.junit.Test;
 import chess.pieces.Knight;
 import chess.pieces.Pawn;
 
+/*
+ * Possible knight scenarios
+ * Move 2 squares horizontally or vertically, then move 1 square the opposite of the first move 
+ * Take piece of opposite color, stop next to piece of same color
+ */
 public class KnightTest {
 
 private GameState state;
